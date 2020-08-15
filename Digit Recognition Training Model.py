@@ -70,6 +70,8 @@ def run_test_harness():  #preparation of conv nn
 	model = define_model()
 	# fit model
 	model.fit(trainX, trainY, epochs=10, batch_size=32, verbose=0)
+	
+run_test_harness()
 
 pickle_out=open(workshop/model_trainned.p","wb")  #workshop is the name of the folder we want to save in
 pickle.dump(model,pickle_out)
