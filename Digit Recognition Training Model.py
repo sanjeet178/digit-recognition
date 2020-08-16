@@ -13,7 +13,7 @@ from keras.optimizers import SGD
 def load_dataset(): #Download the data and unzip them
     def download(filename, source='http://yann.lecun.com/exdb/mnist/'):
         print('Downloading')
-        urllib.urlretrieve(source+filename,filename)
+        urllib.request.urlretrieve(source+filename,filename)
     
 
     def load_mnsit_images(filename):  #unzipping of image file and converting it into an array
@@ -21,7 +21,7 @@ def load_dataset(): #Download the data and unzip them
         #If not it will download the file
             download(filename)
         with gzip.open(filename,'rb') as f:  #open the zip file of images
-            data=np.frombuffer(f.read(), np.unit8, offset=16) #reads the image in the form of 1-d array
+            data=np.frombuffer(f.read(), np.uint8, offset=16) #reads the image in the form of 1-d array
             data=data.reshape(-1,28,28,1)  #each image has 1 channel,28*28 pixels,
             #"-1" it indicates that the number of images is going to inferred by other dimensions
             return data/np.float32(255.0) #converting data array values from bytes to float to images
@@ -36,11 +36,12 @@ def load_dataset(): #Download the data and unzip them
             return data
     
     X_train = load_mnsit_images('train-images-idx3-ubyte.gz')
-    y_train = load_mnsit_labels('train-labels-idx3-ubyte.gz')
+    y_train = load_mnsit_labels('train-labels-idx1-ubyte.gz')
     X_test = load_mnsit_images('t10k-images-idx3-ubyte.gz')
-    y_test = load_mnsit_labels('t10k-labels-idx3-ubyte.gz')
+    y_test = load_mnsit_labels('t10k-labels-idx3-1-ubyte.gz')
 
     y_train = to_categorical(y_train,10) # 10 is number of classes
+    y_test = to_categorical(y_test,10)
 
     return X_train ,y_train ,X_test ,y_test 
 
